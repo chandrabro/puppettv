@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Almost Television</title>
+  <meta name="description" content="A surreal puppet show that writes and performs itself, powered by AI.">
+  <meta name="theme-color" content="#15111f">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23ff7a59'/%3E%3Ccircle cx='35' cy='45' r='10' fill='%23fff'/%3E%3Ccircle cx='65' cy='45' r='10' fill='%23fff'/%3E%3Ccircle cx='37' cy='47' r='4'/%3E%3Ccircle cx='63' cy='47' r='4'/%3E%3Cellipse cx='50' cy='70' rx='14' ry='8' fill='%235a1a12'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app" id="app">
+    <header class="top">
+      <h1>Almost <span>Television</span></h1>
+      <p>A puppet show that writes and performs itself.</p>
+    </header>
+
+    <div class="layout">
+      <!-- ============ THE TV ============ -->
+      <section class="tv" aria-label="Television">
+        <div class="screen" id="screen">
+          <div class="stage" id="stage">
+            <div class="backwall"></div>
+            <div class="curtain left"></div>
+            <div class="curtain right"></div>
+
+            <div class="caption" id="caption" aria-live="polite"></div>
+            <div class="puppets" id="puppets"></div>
+            <div class="ledge" id="ledge"></div>
+
+            <div class="title-card" id="titleCard" aria-hidden="true">
+              <small id="titleSmall"></small>
+              <strong id="titleMain"></strong>
+            </div>
+
+            <canvas class="static" id="static" width="160" height="90"></canvas>
+            <div class="scanlines"></div>
+
+            <button class="power" id="powerBtn" type="button">
+              <span class="power-icon">&#9654;</span>
+              <span>Turn on TV</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="controls" role="toolbar" aria-label="TV controls">
+          <button type="button" id="playBtn" title="Play / Pause (Space)">&#9654; Play</button>
+          <button type="button" id="restartBtn" title="Restart this episode">&#8634; Restart</button>
+          <button type="button" id="nextBtn" title="Next channel (N)">Next channel &#9197;</button>
+          <button type="button" id="fsBtn" title="Fullscreen (F)">&#9974; Fullscreen</button>
+        </div>
+        <p class="status" id="status" role="status"></p>
+      </section>
+
+      <!-- ============ SIDE PANEL ============ -->
+      <aside class="side">
+        <section class="card">
+          <h2>Channels</h2>
+          <ul class="channels" id="channels"></ul>
+        </section>
+
+        <section class="card">
+          <h2>Make a new episode</h2>
+          <form id="genForm" class="gen">
+            <label for="topic">Topic (or leave empty for a surprise)</label>
+            <input id="topic" type="text" maxlength="120" placeholder="e.g. a banana who runs for mayor" autocomplete="off">
+            <div class="row">
+              <label for="genLang" class="inline">Language</label>
+              <select id="genLang">
+                <option value="en">English</option>
+                <option value="ne">Nepali (&#2344;&#2375;&#2346;&#2366;&#2354;&#2368;)</option>
+                <option value="hi">Hindi (&#2361;&#2367;&#2344;&#2381;&#2342;&#2368;)</option>
+              </select>
+              <button type="submit" id="genBtn" class="primary">&#10024; Write with AI</button>
+            </div>
+          </form>
+          <p class="hint">AI writing needs the site to be set up with an API key (see README). Your built-in channels always work without it.</p>
+
+          <details class="paste">
+            <summary>Paste a script (no API key needed)</summary>
+            <p class="hint">Ask Claude or any chatbot to write an episode, then paste the JSON here.</p>
+            <div class="row">
+              <button type="button" id="copyPromptBtn">Copy prompt for a chatbot</button>
+              <button type="button" id="downloadBtn">Download this script</button>
+            </div>
+            <textarea id="pasteBox" rows="6" spellcheck="false" placeholder='{"title":"My Episode","lines":[{"who":"bloop","text":"Hello!"},{"who":"gus","text":"Hmm."}]}'></textarea>
+            <button type="button" id="pasteBtn" class="primary">Add &amp; play</button>
+          </details>
+        </section>
+
+        <section class="card">
+          <h2>Settings</h2>
+          <div class="opts">
+            <label><input type="checkbox" id="optVoice"> Voices</label>
+            <label><input type="checkbox" id="optSfx"> Sound effects</label>
+            <label><input type="checkbox" id="optCaptions"> Captions</label>
+            <label><input type="checkbox" id="optVertical"> Vertical 9:16 (for Shorts / Reels)</label>
+            <label><input type="checkbox" id="optAuto"> Auto-play next channel</label>
+            <label><input type="checkbox" id="optEndless"> Endless TV (AI writes new episodes)</label>
+          </div>
+          <label for="speed" class="inline">Speed <output id="speedOut">1.0x</output></label>
+          <input type="range" id="speed" min="0.7" max="1.4" step="0.05" value="1">
+          <details class="paste">
+            <summary>Choose voices</summary>
+            <div id="voiceSelects" class="voices"></div>
+            <p class="hint">Voices come from your device, so they sound different on every phone or computer. Chrome and Edge usually have the most.</p>
+          </details>
+        </section>
+      </aside>
+    </div>
+
+    <footer class="foot">
+      <p>Made with Claude &middot; Puppets, voices and sounds are all generated in your browser.</p>
+    </footer>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="episodes.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

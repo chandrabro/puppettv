@@ -1,0 +1,11 @@
+{
+  "name": "almost-television",
+  "version": "1.0.0",
+  "description": "A surreal puppet show that writes and performs itself, powered by AI.",
+  "private": true,
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "dev": "vercel dev",
+    "test": "node --test"
+  }
+}
